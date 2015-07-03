@@ -1,8 +1,9 @@
 var narf = require('narf');
 var five = new require('johnny-five');
 var board = new require('johnny-five').Board();
-console.log("Starting ..");
+
 board.on('ready', function() {
+  console.log("Starting ..");
   var bottonServo = new five.Servo(5);
   var APIFunctions = {
     POST : {
