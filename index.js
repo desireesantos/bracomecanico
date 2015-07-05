@@ -1,6 +1,7 @@
 var narf = require('narf');
 var five = new require('johnny-five');
-var board = new require('johnny-five').Board();
+var board = five.Board();
+var leftRightSide = 0;
 
 board.on('ready', function() {
   console.log("Starting ..");
@@ -9,6 +10,15 @@ board.on('ready', function() {
     POST : {
       mecanicArm : function (data, callback ){
         console.log(data.url.value);
+        if (data.url.value ==='left') {
+          controlLeftRighSide +=90;
+          bottonServo.to(leftRightSide);
+        };
+        if (data.url.value ==='right') {
+          controlLeftRighSide -=90;
+          bottonServo.to(leftRightSide);
+        };
+        callback( data.url.value );
       }
     }};
 
@@ -17,9 +27,13 @@ board.on('ready', function() {
     console.log('Start server on port', port);
     hs.addAPI( { functions : APIFunctions } );
   } );
+  hs.on( 'error', function( err ){
+  console.log( err );
+} );
 });
 
 narf.pageServer({ 
   port: 8000,
   path: __dirname + '/client/'
 });
+
