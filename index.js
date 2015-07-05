@@ -3,15 +3,17 @@ var five = new require('johnny-five');
 var board = five.Board();
 
 var sideControl = 0;
-var rightControl = 0;
-var leftControl = 0;
+var minRightPosition = 90;
+var maxRightPosition = 150;
 
-var upDownControl = 0;
+var minLeftPosition = 70;
+var maxLeftPosition = 130;
 
-var minPosition = 50;
-var maxPosition = 170;
+var minArmPosition = 50;
+var maxArmPosition = 170;
 
 board.on('ready', function() {
+
   console.log("Starting ..");
   var bottonServo = new five.Servo(5);
   var rightServo = new five.Servo(6);
@@ -32,29 +34,27 @@ board.on('ready', function() {
           bottonServo.to(sideControl);
         };
 
-        if (command ==='front') {
-          rightControl +=90;
-          rightServo.to(rightControl);
-        };
         if (command ==='back') {
-          rightControl -=90;
-          rightServo.to(rightControl);
+          rightServo.to(minRightPosition);
+        };
+        if (command ==='front') {
+          rightServo.to(maxRightPosition);
         };  
 
         if (command ==='up') {
-          leftServo.to(minPosition);
+          leftServo.to(minLeftPosition);
         };
         if (command ==='down') {
-          leftServo.to(maxPosition);
+          leftServo.to(maxLeftPosition);
         };
 
          if ( command ==='open') {
-          armServo.to(minPosition);
+          armServo.to(minArmPosition);
         };
         if (command ==='close') {
-          armServo.to(maxPosition);
+          armServo.to(maxArmPosition);
         };  
-        
+
        callback( command ); 
       }
     }};
